@@ -280,6 +280,8 @@ func query(blob interface{}, query string) (interface{}, error) {
 	if err == nil {
 		switch blob.(type) {
 		case []interface{}:
+		case map[string]interface{}:
+			goto Map
 		default:
 			return nil, fmt.Errorf("Array index on non-array %v\n", blob)
 		}
@@ -289,6 +291,7 @@ func query(blob interface{}, query string) (interface{}, error) {
 		return nil, fmt.Errorf("Array index %d on array %v out of bounds\n", index, blob)
 	}
 
+Map:
 	// blob is likely an object, but verify first
 	switch blob.(type) {
 	case map[string]interface{}:
